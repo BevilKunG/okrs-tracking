@@ -8,6 +8,14 @@ const mockObjective = {
       label: 'init',
       progress: 100
     }]
+  },
+  {
+    label: 'build a pyramid',
+    progress: 100,
+    progressDetailList: [{
+      label: 'init',
+      progress: 100
+    }]
   }]
 }
 

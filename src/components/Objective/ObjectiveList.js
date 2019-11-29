@@ -6,7 +6,16 @@ import ObjectiveModal from './ObjectiveModal'
 
 class ObjectiveList extends Component {
   state = {
-    showModal: false
+    showModal: false,
+    selectedObjective: null
+  }
+
+  openModal = (objective) => {
+    this.setState({ showModal: true, selectedObjective: objective })
+  }
+
+  closeModal = () => {
+    this.setState({ showModal: false, selectedObjective: null })
   }
 
   renderCard() {
@@ -15,14 +24,16 @@ class ObjectiveList extends Component {
         <ObjectiveCard
           key={objective.label + index}
           objective={objective}
-          onCardClick={() => this.setState({ showModal: true })}/>
+          onCardClick={this.openModal}/>
       )
     })
   }
 
   renderModal() {
     return this.state.showModal && (
-      <ObjectiveModal/>
+      <ObjectiveModal
+        objective={this.state.selectedObjective}
+        onCardClose={this.closeModal}/>
     )
   }
 

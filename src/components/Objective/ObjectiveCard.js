@@ -9,7 +9,8 @@ const ObjectiveCard = ({ objective, onCardClick }) => {
       margin='medium'
       elevation='small'
       animation='fadeIn'
-      onClick={onCardClick}>
+      onClick={() => onCardClick(objective)}
+      hoverIndicator>
       <Heading>{objective.label}</Heading>
       <Meter
         values={[{
