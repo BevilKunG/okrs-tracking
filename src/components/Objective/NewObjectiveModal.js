@@ -37,14 +37,25 @@ class NewObjectiveModal extends Component {
   onKeyResultEnter = (e) => {
     if(e.key === 'Enter' && this.state.keyResultLabel !== '') {
       // save
-      let keyResult = {
-        label: this.state.keyResultLabel,
-        progress: 0,
-        progressDetailList: []
-      }
-      this.setState({ keyResults: [...this.state.keyResults, keyResult] })
-      this.setState({ keyResultLabel: '' })
+      this.handleKeyResult()
     }
+  }
+
+  onAddClick = () => {
+    if(this.state.keyResultLabel !== '') {
+      this.handleKeyResult()
+    }
+    this.setState({ addKeyResult: !this.state.addKeyResult })
+  }
+
+  handleKeyResult = () => {
+    let keyResult = {
+      label: this.state.keyResultLabel,
+      progress: 0,
+      progressDetailList: []
+    }
+    this.setState({ keyResults: [...this.state.keyResults, keyResult] })
+    this.setState({ keyResultLabel: '' })
   }
 
   renderHeading() {
@@ -64,7 +75,7 @@ class NewObjectiveModal extends Component {
       <Button
         margin={{vertical: 'medium'}}
         label='Add Key Result'
-        onClick={() => this.setState({ addKeyResult: !this.state.addKeyResult })}/>
+        onClick={this.onAddClick}/>
     )
   }
 
