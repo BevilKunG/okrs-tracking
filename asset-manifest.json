@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.js": "/okrs-tracking/static/js/main.da88f2a8.chunk.js",
+    "main.js.map": "/okrs-tracking/static/js/main.da88f2a8.chunk.js.map",
+    "runtime-main.js": "/okrs-tracking/static/js/runtime-main.eaf56b0d.js",
+    "runtime-main.js.map": "/okrs-tracking/static/js/runtime-main.eaf56b0d.js.map",
+    "static/js/2.8af4895c.chunk.js": "/okrs-tracking/static/js/2.8af4895c.chunk.js",
+    "static/js/2.8af4895c.chunk.js.map": "/okrs-tracking/static/js/2.8af4895c.chunk.js.map",
+    "index.html": "/okrs-tracking/index.html",
+    "precache-manifest.0430887dd15a850aee2f293f3ad626e5.js": "/okrs-tracking/precache-manifest.0430887dd15a850aee2f293f3ad626e5.js",
+    "service-worker.js": "/okrs-tracking/service-worker.js"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.eaf56b0d.js",
+    "static/js/2.8af4895c.chunk.js",
+    "static/js/main.da88f2a8.chunk.js"
+  ]
+}
