@@ -3,20 +3,32 @@ import { connect } from 'react-redux'
 import { Box } from 'grommet'
 import ObjectiveCard from './ObjectiveCard'
 import ObjectiveModal from './ObjectiveModal'
+import NewObjectiveCard from './NewObjectiveCard'
+import NewObjectiveModal from './NewObjectiveModal'
 
 class ObjectiveList extends Component {
   state = {
     showModal: false,
+    showNewModal: false,
     selectedObjective: null
   }
 
-  openModal = (objective) => {
+  openObjective = (objective) => {
     this.setState({ showModal: true, selectedObjective: objective })
   }
 
-  closeModal = () => {
+  closeObjective = () => {
     this.setState({ showModal: false, selectedObjective: null })
   }
+
+  openNewObjective = () => {
+    this.setState({ showNewModal: true })
+  }
+
+  closeNewObjective = () => {
+    this.setState({ showNewModal: false })
+  }
+
 
   renderCard() {
     return this.props.objectives.map((objective, index) => {
@@ -24,7 +36,7 @@ class ObjectiveList extends Component {
         <ObjectiveCard
           key={objective.label + index}
           objective={objective}
-          onCardClick={this.openModal}/>
+          onCardClick={this.openObjective}/>
       )
     })
   }
@@ -33,7 +45,10 @@ class ObjectiveList extends Component {
     return this.state.showModal && (
       <ObjectiveModal
         objective={this.state.selectedObjective}
-        onCardClose={this.closeModal}/>
+        onCardClose={this.closeObjective}/>
+    ) ||
+    this.state.showNewModal && (
+      <NewObjectiveModal onCardClose={this.closeNewObjective}/>
     )
   }
 
@@ -42,6 +57,7 @@ class ObjectiveList extends Component {
       <Box direction='row'>
         {this.renderCard()}
         {this.renderModal()}
+        <NewObjectiveCard onCardClick={this.openNewObjective}/>
       </Box>
     )
   }
