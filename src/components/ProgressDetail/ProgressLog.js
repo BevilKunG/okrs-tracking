@@ -7,6 +7,7 @@ class ProgressLog extends Component {
     return this.props.progressDetailList.map((progressDetail) => {
       return (
         <Box
+          key={progressDetail.label}
           direction='row'
           margin={{ vertical: 'medium' }}>
           <Box>
