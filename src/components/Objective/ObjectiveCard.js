@@ -5,6 +5,7 @@ const ObjectiveCard = ({ objective, onCardClick }) => {
   return (
     <Box
       direction='column'
+      basis='medium'
       pad='medium'
       margin='medium'
       elevation='small'

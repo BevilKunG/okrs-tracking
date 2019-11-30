@@ -42,19 +42,22 @@ class ObjectiveList extends Component {
   }
 
   renderModal() {
-    return this.state.showModal && (
+    return (this.state.showModal && (
       <ObjectiveModal
         objective={this.state.selectedObjective}
         onCardClose={this.closeObjective}/>
-    ) ||
-    this.state.showNewModal && (
+    )) ||
+    (this.state.showNewModal && (
       <NewObjectiveModal onCardClose={this.closeNewObjective}/>
-    )
+    ))
   }
 
   render() {
     return (
-      <Box direction='row'>
+      <Box
+        direction='row'
+        margin='medium' 
+        wrap>
         {this.renderCard()}
         {this.renderModal()}
         <NewObjectiveCard onCardClick={this.openNewObjective}/>
