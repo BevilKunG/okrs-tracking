@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Heading, Meter } from 'grommet'
 
-const ObjectiveCard = ({ objective, onCardClick }) => {
+const ObjectiveCard = ({ objective, objectiveIndex, onCardClick }) => {
   return (
     <Box
       direction='column'
@@ -10,7 +10,7 @@ const ObjectiveCard = ({ objective, onCardClick }) => {
       margin='medium'
       elevation='small'
       animation='fadeIn'
-      onClick={() => onCardClick(objective)}
+      onClick={() => onCardClick(objectiveIndex, objective)}
       hoverIndicator>
       <Heading>{objective.label}</Heading>
       <Meter

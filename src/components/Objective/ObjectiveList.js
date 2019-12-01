@@ -10,11 +10,16 @@ class ObjectiveList extends Component {
   state = {
     showModal: false,
     showNewModal: false,
-    selectedObjective: null
+    selectedObjective: null,
+    selectedIndex: null
   }
 
-  openObjective = (objective) => {
-    this.setState({ showModal: true, selectedObjective: objective })
+  openObjective = (objectiveIndex, objective) => {
+    this.setState({
+      showModal: true,
+      selectedObjective: objective,
+      selectedIndex: objectiveIndex
+     })
   }
 
   closeObjective = () => {
@@ -36,6 +41,7 @@ class ObjectiveList extends Component {
         <ObjectiveCard
           key={objective.label + index}
           objective={objective}
+          objectiveIndex={index}
           onCardClick={this.openObjective}/>
       )
     })
@@ -45,6 +51,7 @@ class ObjectiveList extends Component {
     return (this.state.showModal && (
       <ObjectiveModal
         objective={this.state.selectedObjective}
+        objectiveIndex={this.state.selectedIndex}
         onCardClose={this.closeObjective}/>
     )) ||
     (this.state.showNewModal && (
@@ -56,7 +63,7 @@ class ObjectiveList extends Component {
     return (
       <Box
         direction='row'
-        margin='medium' 
+        margin='medium'
         wrap>
         {this.renderCard()}
         {this.renderModal()}
