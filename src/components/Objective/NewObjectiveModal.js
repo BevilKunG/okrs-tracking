@@ -27,6 +27,14 @@ class NewObjectiveModal extends Component {
     this.props.onCardClose()
   }
 
+  onProgressDetailAdd = (keyResultIndex, updatedKeyResult) => {
+    this.setState({ keyResults: [
+      ...this.state.keyResults.slice(0, keyResultIndex),
+      updatedKeyResult,
+      ...this.state.keyResults.slice(keyResultIndex + 1)
+    ] })
+  }
+
   onObjectiveEnter = (e) => {
     if(e.key === 'Enter' && this.state.objectiveLabel !== '') {
       this.setState({ editHeading: false })
@@ -117,7 +125,9 @@ class NewObjectiveModal extends Component {
         </Box>
 
         <Box margin={{ horizontal: 'large', top: 'medium'}}>
-          <KeyResultList keyResults={this.state.keyResults}/>
+          <KeyResultList
+            keyResults={this.state.keyResults}
+            onProgressDetailAdd={this.onProgressDetailAdd}/>
           {this.renderKeyResultInput()}
           {this.renderAddButton()}
         </Box>

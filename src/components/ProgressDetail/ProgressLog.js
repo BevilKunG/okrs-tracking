@@ -1,10 +1,70 @@
 import React, { Component } from 'react'
-import { Box, Text } from 'grommet'
+import { Box, Text, Button, TextInput } from 'grommet'
 import { StatusGoodSmall } from 'grommet-icons'
 
 class ProgressLog extends Component {
+
+  state = {
+    progressDetailList: [],
+    progressDetailLabel: '',
+    addProgressDetail: false
+  }
+
+  componentDidMount() {
+    this.setState({ progressDetailList: this.props.progressDetailList })
+  }
+
+  onAddClick = () => {
+    if(this.state.addProgressDetail && this.state.progressDetailLabel !== '') {
+      this.handleProgressDetailList()
+    }
+    this.setState({ addProgressDetail: !this.state.addProgressDetail })
+  }
+
+  onProgressDetailEnter = (e) => {
+    if(e.key === 'Enter' && this.state.progressDetailLabel !== '') {
+      this.handleProgressDetailList()
+    }
+  }
+
+  handleProgressDetailList = () => {
+    let progressDetail = {
+      label: this.state.progressDetailLabel,
+      progress: 0
+    }
+
+    this.setState({
+      progressDetailList: [...this.state.progressDetailList, progressDetail],
+      progressDetailLabel: ''
+    })
+
+    // update back to modal
+    let updatedKeyResult = {...this.props.keyResult}
+    updatedKeyResult.progressDetailList = [...this.state.progressDetailList, progressDetail]
+    this.props.onProgressDetailAdd(this.props.keyResultIndex, updatedKeyResult)
+  }
+
+  renderAddButton() {
+    return (
+      <Button
+        margin={{vertical: 'medium'}}
+        label='Update Log'
+        onClick={this.onAddClick}/>
+    )
+  }
+
+  renderProgressDetailInput() {
+    return this.state.addProgressDetail && (
+      <TextInput
+        placeholder='Progress Log'
+        value={this.state.progressDetailLabel}
+        onChange={(e) => this.setState({ progressDetailLabel: e.target.value })}
+        onKeyDown={this.onProgressDetailEnter}/>
+    )
+  }
+
   renderList() {
-    return this.props.progressDetailList.map((progressDetail) => {
+    return this.state.progressDetailList.map((progressDetail) => {
       return (
         <Box
           key={progressDetail.label}
@@ -28,6 +88,8 @@ class ProgressLog extends Component {
     return (
       <>
       {this.renderList()}
+      {this.renderProgressDetailInput()}
+      {this.renderAddButton()}
       </>
     )
   }
