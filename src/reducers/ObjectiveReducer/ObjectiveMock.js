@@ -3,22 +3,22 @@ export const mockObjective = {
   progress: 100,
   keyResults: [{
     label: 'take a quick tour',
-    progress: 0,
+    progress: 50,
     progressDetailList: [{
       label: 'follow us',
-      progress: 0
+      progress: 100
     }]
   },
   {
     label: 'create your new objective',
-    progress: 0,
+    progress: 10,
     progressDetailList: [{
       label: 'try to create',
-      progress: 0
+      progress: 20
     },
   {
     label: 'add your key result',
-    progress: 0
+    progress: 30
   }]
   }]
 }
