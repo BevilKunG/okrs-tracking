@@ -80,10 +80,10 @@ class NewObjectiveModal extends Component {
 
   renderAddButton() {
     return this.state.objectiveLabel !== '' && (
-      <Button
-        margin={{vertical: 'medium'}}
-        label='Add Key Result'
-        onClick={this.onAddClick}/>
+        <Button
+          label='Add Key Result'
+          margin={{vertical: 'medium', horizontal: 'xlarge'}}
+          onClick={this.onAddClick}/>
     )
   }
 
@@ -125,9 +125,14 @@ class NewObjectiveModal extends Component {
         </Box>
 
         <Box margin={{ horizontal: 'large', top: 'medium'}}>
+          <Box
+            overflow='auto'
+            height={{ max: 'medium' }}
+            margin={{ vertical: 'small' }}>
           <KeyResultList
             keyResults={this.state.keyResults}
             onProgressDetailAdd={this.onProgressDetailAdd}/>
+          </Box>
           {this.renderKeyResultInput()}
           {this.renderAddButton()}
         </Box>

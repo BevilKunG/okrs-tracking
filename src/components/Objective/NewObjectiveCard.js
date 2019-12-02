@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, Meter, Text } from 'grommet'
+import { Box, Heading } from 'grommet'
 import { Add } from 'grommet-icons'
 
 const NewObjectiveCard = ({ onCardClick }) => {

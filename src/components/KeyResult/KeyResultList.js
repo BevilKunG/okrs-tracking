@@ -24,9 +24,9 @@ class KeyResultList extends Component {
 
   render() {
     return (
-      <Accordion>
-          {this.renderCard()}
-      </Accordion>
+        <Accordion>
+            {this.renderCard()}
+        </Accordion>
     )
   }
 }

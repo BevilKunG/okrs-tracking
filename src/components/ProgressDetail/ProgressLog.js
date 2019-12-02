@@ -11,7 +11,9 @@ class ProgressLog extends Component {
   }
 
   componentDidMount() {
-    this.setState({ progressDetailList: this.props.progressDetailList })
+    this.setState({
+      progressDetailList: this.props.progressDetailList
+    })
   }
 
   onAddClick = () => {
@@ -47,7 +49,7 @@ class ProgressLog extends Component {
   renderAddButton() {
     return (
       <Button
-        margin={{vertical: 'medium'}}
+        margin={{vertical: 'medium', horizontal: 'xlarge'}}
         label='Update Log'
         onClick={this.onAddClick}/>
     )
@@ -69,6 +71,7 @@ class ProgressLog extends Component {
         <Box
           key={progressDetail.label}
           direction='row'
+          flex={false}
           margin={{ vertical: 'medium' }}>
           <Box>
             <StatusGoodSmall color='accent-1'/>
@@ -86,11 +89,16 @@ class ProgressLog extends Component {
 
   render() {
     return (
-      <>
-      {this.renderList()}
+    <Box>
+      <Box
+        margin={{ vertical: 'small' }}
+        height={{ max: 'small' }}
+        overflow='auto'>
+        {this.renderList()}
+      </Box>
       {this.renderProgressDetailInput()}
       {this.renderAddButton()}
-      </>
+    </Box>
     )
   }
 }

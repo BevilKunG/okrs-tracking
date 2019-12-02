@@ -68,9 +68,13 @@ class ObjectiveModal extends Component {
         </Box>
 
         <Box margin={{ horizontal: 'large', top: 'medium'}}>
-          <KeyResultList
-            keyResults={this.state.keyResults}
-            onProgressDetailAdd={this.onProgressDetailAdd}/>
+          <Box
+            height={{ max: 'large' }}
+            overflow='auto'>
+            <KeyResultList
+              keyResults={this.state.keyResults}
+              onProgressDetailAdd={this.onProgressDetailAdd}/>
+          </Box>
         </Box>
       </Layer>
     )
