@@ -33,7 +33,7 @@ class ObjectiveModal extends Component {
     this.props.onCardClose()
   }
 
-  onProgressDetailAdd = (keyResultIndex, updatedKeyResult) => {
+  onKeyResultUpdate = (keyResultIndex, updatedKeyResult) => {
     this.setState({
       keyResults: [
       ...this.state.keyResults.slice(0, keyResultIndex),
@@ -73,7 +73,7 @@ class ObjectiveModal extends Component {
             overflow='auto'>
             <KeyResultList
               keyResults={this.state.keyResults}
-              onProgressDetailAdd={this.onProgressDetailAdd}/>
+              onKeyResultUpdate={this.onKeyResultUpdate}/>
           </Box>
         </Box>
       </Layer>

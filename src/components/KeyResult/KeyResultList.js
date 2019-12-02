@@ -3,7 +3,7 @@ import { Box, Accordion, AccordionPanel } from 'grommet'
 import ProgressLog from '../ProgressDetail/ProgressLog'
 
 class KeyResultList extends Component {
-  renderCard() {
+  renderPanel() {
     return this.props.keyResults.map((keyResult, index) => {
       return (
         <AccordionPanel
@@ -15,7 +15,7 @@ class KeyResultList extends Component {
               keyResult={keyResult}
               keyResultIndex={index}
               progressDetailList={keyResult.progressDetailList}
-              onProgressDetailAdd={this.props.onProgressDetailAdd}/>
+              onKeyResultUpdate={this.props.onKeyResultUpdate}/>
           </Box>
         </AccordionPanel>
       )
@@ -25,7 +25,7 @@ class KeyResultList extends Component {
   render() {
     return (
         <Accordion>
-            {this.renderCard()}
+            {this.renderPanel()}
         </Accordion>
     )
   }

@@ -5,8 +5,7 @@ export const mockObjective = {
     label: 'take a quick tour',
     progress: 50,
     progressDetailList: [{
-      label: 'follow us',
-      progress: 100
+      label: 'follow us'
     }]
   },
   {
@@ -14,11 +13,9 @@ export const mockObjective = {
     progress: 10,
     progressDetailList: [{
       label: 'try to create',
-      progress: 20
     },
   {
     label: 'add your key result',
-    progress: 30
   }]
   }]
 }
