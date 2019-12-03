@@ -11,11 +11,13 @@ class KeyResultList extends Component {
 
   onKeyResultSelect = (keyResultIndex) => {
     if(this.state.currentSelected === keyResultIndex) {
+      this.props.onKeyResultHide()
       this.setState({
         showKeyResult: !this.state.showKeyResult,
         currentSelected: -1
       })
     } else {
+      this.props.onKeyResultShow()
       this.setState({
         currentSelected: keyResultIndex,
         showKeyResult: true
@@ -53,7 +55,8 @@ class KeyResultList extends Component {
     return this.props.keyResults.map((keyResult, index) => {
       return (
         <Box
-          key={keyResult.label}>
+          key={keyResult.label}
+          flex={false}>
           <Box
             direction='row'
             pad={{ vertical: 'medium'}}

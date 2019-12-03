@@ -2,14 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { updateObjective } from '../../actions'
-import { Layer, Box, Heading } from 'grommet'
+import { Layer, Box, Heading, Button, TextInput } from 'grommet'
 import { Close } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
 
 class ObjectiveModal extends Component {
   state = {
     keyResults: [],
-    isUpdate: false
+    keyResultLabel: '',
+    isUpdate: false,
+    addKeyResult: false,
+    showAddButton: true
   }
 
   componentDidMount() {
@@ -52,6 +55,63 @@ class ObjectiveModal extends Component {
     })
   }
 
+  onKeyResultShow = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: false
+    })
+  }
+
+  onKeyResultHide = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: true
+    })
+  }
+
+  onAddClick = () => {
+    if(this.state.keyResultLabel !== '') {
+      this.handleKeyResult()
+    }
+    this.setState({ addKeyResult: !this.state.addKeyResult })
+  }
+
+  onKeyResultEnter = (e) => {
+    if(e.key === 'Enter' && this.state.keyResultLabel !== '') {
+      // save
+      this.handleKeyResult()
+    }
+  }
+
+  handleKeyResult = () => {
+    let keyResult = {
+      label: this.state.keyResultLabel,
+      progress: 0,
+      progressDetailList: []
+    }
+    this.setState({ keyResults: [...this.state.keyResults, keyResult] })
+    this.setState({ keyResultLabel: '' })
+  }
+
+  renderAddButton() {
+    return this.state.showAddButton && (
+        <Button
+          label='Add Key Result'
+          margin={{vertical: 'medium', horizontal: 'xlarge'}}
+          onClick={this.onAddClick}/>
+    )
+  }
+
+  renderKeyResultInput() {
+    return this.state.addKeyResult && (
+      <TextInput
+         placeholder='Key Result'
+         value={this.state.keyResultLabel}
+         onChange={(e) => this.setState({ keyResultLabel: e.target.value })}
+         onKeyDown={this.onKeyResultEnter}/>
+    )
+  }
+
   render() {
     return (
       <Layer
@@ -77,12 +137,17 @@ class ObjectiveModal extends Component {
 
         <Box margin={{ horizontal: 'large', top: 'medium'}}>
           <Box
-            height={{ max: 'large' }}
-            overflow='auto'>
+            overflow='auto'
+            height={{ max: 'medium' }}
+            margin={{ vertical: 'small' }}>
             <KeyResultList
               keyResults={this.state.keyResults}
-              onKeyResultUpdate={this.onKeyResultUpdate}/>
+              onKeyResultUpdate={this.onKeyResultUpdate}
+              onKeyResultShow={this.onKeyResultShow}
+              onKeyResultHide={this.onKeyResultHide}/>
           </Box>
+          {this.renderKeyResultInput()}
+          {this.renderAddButton()}
         </Box>
       </Layer>
     )

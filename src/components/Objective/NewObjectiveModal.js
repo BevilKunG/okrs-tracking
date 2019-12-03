@@ -13,14 +13,21 @@ class NewObjectiveModal extends Component {
     keyResults: [],
     editHeading: true,
     addKeyResult: false,
+    showAddButton: false
   }
 
   onCloseModal = () => {
     // firebase save
     if(this.state.objectiveLabel !== '') {
+      let progress = Math.floor(
+        this.state.keyResults
+          .reduce((sum, keyResult) => sum + keyResult.progress, 0) /
+          this.state.keyResults.length
+      )
+
       this.props.addObjective({
         label: this.state.objectiveLabel,
-        progress: 0,
+        progress,
         keyResults: this.state.keyResults
       })
     }
@@ -33,6 +40,27 @@ class NewObjectiveModal extends Component {
       updatedKeyResult,
       ...this.state.keyResults.slice(keyResultIndex + 1)
     ] })
+  }
+
+  onKeyResultShow = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: false
+    })
+  }
+
+  onKeyResultHide = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: true
+    })
+  }
+
+  onObjectiveChange = (e) => {
+    this.setState({
+      objectiveLabel: e.target.value,
+      showAddButton: e.target.value !== ''
+    })
   }
 
   onObjectiveEnter = (e) => {
@@ -71,7 +99,7 @@ class NewObjectiveModal extends Component {
       <TextInput
         placeholder='Objective Title'
         value={this.state.objectiveLabel}
-        onChange={(e) => this.setState({ objectiveLabel: e.target.value })}
+        onChange={this.onObjectiveChange}
         onKeyDown={this.onObjectiveEnter}/>
     )  : (
       this.state.objectiveLabel
@@ -79,7 +107,7 @@ class NewObjectiveModal extends Component {
   }
 
   renderAddButton() {
-    return this.state.objectiveLabel !== '' && (
+    return this.state.showAddButton && (
         <Button
           label='Add Key Result'
           margin={{vertical: 'medium', horizontal: 'xlarge'}}
@@ -131,7 +159,9 @@ class NewObjectiveModal extends Component {
             margin={{ vertical: 'small' }}>
           <KeyResultList
             keyResults={this.state.keyResults}
-            onKeyResultUpdate={this.onKeyResultUpdate}/>
+            onKeyResultUpdate={this.onKeyResultUpdate}
+            onKeyResultShow={this.onKeyResultShow}
+            onKeyResultHide={this.onKeyResultHide}/>
           </Box>
           {this.renderKeyResultInput()}
           {this.renderAddButton()}
