@@ -1,32 +1,89 @@
 import React, { Component } from 'react'
-import { Box, Accordion, AccordionPanel } from 'grommet'
+import { Box, Text, Meter } from 'grommet'
+import { Up, Down } from 'grommet-icons'
 import ProgressLog from '../ProgressDetail/ProgressLog'
 
 class KeyResultList extends Component {
-  renderPanel() {
+  state = {
+    previousSelcted: -1,
+    showKeyResult: false
+  }
+
+  onKeyResultSelect = (keyResultIndex) => {
+    if(this.state.currentSelected === keyResultIndex) {
+      this.setState({
+        showKeyResult: !this.state.showKeyResult,
+        currentSelected: -1
+      })
+    } else {
+      this.setState({
+        currentSelected: keyResultIndex,
+        showKeyResult: true
+      })
+    }
+  }
+
+  renderCurrentLog(keyResult, keyResultIndex) {
+    return  (
+      <Box
+        animation={{
+          type: 'slideDown',
+          duration: 300
+        }}>
+        <ProgressLog
+          keyResult={keyResult}
+          keyResultIndex={keyResultIndex}
+          progressDetailList={keyResult.progressDetailList}
+          onKeyResultUpdate={this.props.onKeyResultUpdate}/>
+      </Box>
+    )
+  }
+
+  renderProgressLog(keyResult, keyResultIndex) {
+    return this.state.showKeyResult &&
+      this.state.currentSelected === keyResultIndex &&
+      this.renderCurrentLog(keyResult, keyResultIndex)
+  }
+
+  renderSign(keyResultIndex) {
+    return this.state.currentSelected === keyResultIndex ? <Up/> : <Down/>
+  }
+
+  renderList() {
     return this.props.keyResults.map((keyResult, index) => {
       return (
-        <AccordionPanel
-          key={keyResult.label}
-          label={keyResult.label}
-          >
-          <Box>
-            <ProgressLog
-              keyResult={keyResult}
-              keyResultIndex={index}
-              progressDetailList={keyResult.progressDetailList}
-              onKeyResultUpdate={this.props.onKeyResultUpdate}/>
+        <Box
+          key={keyResult.label}>
+          <Box
+            direction='row'
+            pad={{ vertical: 'medium'}}
+            onClick={() => this.onKeyResultSelect(index)}>
+
+            <Box basis='3/4'>
+              <Text>{keyResult.label}</Text>
+            </Box>
+
+            <Box
+              margin={{ right: 'small' }}>
+              <Meter values={[{value: keyResult.progress}]}/>
+            </Box>
+
+            <Box>
+              {this.renderSign(index)}
+            </Box>
+
           </Box>
-        </AccordionPanel>
+          {this.renderProgressLog(keyResult, index)}
+        </Box>
       )
     })
   }
 
   render() {
     return (
-        <Accordion>
-            {this.renderPanel()}
-        </Accordion>
+      <Box>
+        {this.renderList()}
+      </Box>
     )
   }
 }

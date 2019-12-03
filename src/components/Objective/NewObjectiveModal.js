@@ -27,7 +27,7 @@ class NewObjectiveModal extends Component {
     this.props.onCardClose()
   }
 
-  onProgressDetailAdd = (keyResultIndex, updatedKeyResult) => {
+  onKeyResultUpdate = (keyResultIndex, updatedKeyResult) => {
     this.setState({ keyResults: [
       ...this.state.keyResults.slice(0, keyResultIndex),
       updatedKeyResult,
@@ -131,7 +131,7 @@ class NewObjectiveModal extends Component {
             margin={{ vertical: 'small' }}>
           <KeyResultList
             keyResults={this.state.keyResults}
-            onProgressDetailAdd={this.onProgressDetailAdd}/>
+            onKeyResultUpdate={this.onKeyResultUpdate}/>
           </Box>
           {this.renderKeyResultInput()}
           {this.renderAddButton()}
