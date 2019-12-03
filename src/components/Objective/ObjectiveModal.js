@@ -19,7 +19,15 @@ class ObjectiveModal extends Component {
   onCloseModal = () => {
     // firebase save
     if(this.state.isUpdate) {
-      const { label, progress } = this.props.objective
+      const { label } = this.props.objective
+
+      let progress = Math.floor(
+        this.state.keyResults
+          .reduce((sum, keyResult) => sum + keyResult.progress, 0) /
+          this.state.keyResults.length
+      )
+
+      console.log(progress);
       this.props.updateObjective(
           this.props.objectiveIndex,
           {

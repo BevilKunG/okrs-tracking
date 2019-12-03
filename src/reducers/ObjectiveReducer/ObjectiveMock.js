@@ -1,6 +1,6 @@
 export const mockObjective = {
   label: 'Getting Start OKRS',
-  progress: 100,
+  progress: 30,
   keyResults: [{
     label: 'take a quick tour',
     progress: 50,
