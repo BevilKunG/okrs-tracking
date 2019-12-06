@@ -1,4 +1,4 @@
-import { ADD_OBJECTIVE, UPDATE_OBJECTIVE } from './types'
+import { ADD_OBJECTIVE, UPDATE_OBJECTIVE, SET_USER } from './types'
 
 export const addObjective = (objective) => {
   return {
@@ -15,6 +15,15 @@ export const updateObjective = (updatedIndex, updatedObjective) => {
     payload: {
       updatedIndex,
       updatedObjective
+    }
+  }
+}
+
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    payload: {
+      user
     }
   }
 }
