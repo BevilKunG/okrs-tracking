@@ -1,13 +1,14 @@
 import React from 'react'
 import { Box, Heading } from 'grommet'
+import Layout from '../components/Layout/Layout'
 import ObjectiveList from '../components/Objective/ObjectiveList'
 
 const Dashboard = () => {
   return (
-    <Box align='center'>
+    <Layout>
       <Heading textAlign='center'>{'Dashboard'}</Heading>
       <ObjectiveList/>
-    </Box>
+    </Layout>
   )
 }
 

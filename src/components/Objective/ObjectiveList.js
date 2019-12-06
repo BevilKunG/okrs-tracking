@@ -73,8 +73,8 @@ class ObjectiveList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return state
+const mapStateToProps = ({ objectives }) => {
+  return { objectives }
 }
 
 export default connect(mapStateToProps)(ObjectiveList)

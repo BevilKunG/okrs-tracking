@@ -30,7 +30,7 @@ class ObjectiveModal extends Component {
           this.state.keyResults.length
       )
 
-      console.log(progress);
+      // console.log(progress);
       this.props.updateObjective(
           this.props.objectiveIndex,
           {
