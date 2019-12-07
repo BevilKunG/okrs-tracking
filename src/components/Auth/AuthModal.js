@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Layer, Box, Form, FormField, TextInput, Text, Button } from 'grommet'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { setUserName } from '../../actions'
+import { Layer, Box, Form, FormField, Text, Button } from 'grommet'
 import { Close } from 'grommet-icons'
 import { LOGIN, REGISTER } from './types'
 import firebase from 'firebase/app'
@@ -16,7 +19,6 @@ class AuthModal extends Component {
   }
 
   onLoginFormSubmit = ({ value }) => {
-    // console.log(value)
     firebase.auth()
       .signInWithEmailAndPassword(value.email, value.password)
       .catch((error) => {
@@ -25,6 +27,8 @@ class AuthModal extends Component {
   }
 
   onRegisterFormSubmit = ({ value }) => {
+    this.props.setUserName(value.name)
+
     firebase.auth()
     .createUserWithEmailAndPassword(value.email, value.password)
     .catch((error) => {
@@ -161,4 +165,10 @@ class AuthModal extends Component {
   }
 }
 
-export default AuthModal
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setUserName
+  }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(AuthModal)

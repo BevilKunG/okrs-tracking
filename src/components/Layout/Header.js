@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Box, Heading, Button } from 'grommet'
+import { Box, Heading, Button, Text } from 'grommet'
 import AuthModal from '../Auth/AuthModal'
 import { LOGIN, REGISTER } from '../Auth/types'
 import firebase from 'firebase/app'
@@ -36,11 +36,26 @@ class Header extends Component {
     )
   }
 
+  renderUserName() {
+    return (
+      <Text
+        margin={{ right: 'medium' }}>
+        {!this.props.user.displayName ? this.props.userName : this.props.user.displayName}
+      </Text>
+    )
+  }
+
   renderButton() {
     return this.props.user ? (
-      <Button
-        label='Sign out'
-        onClick={this.onLogout}/>
+      <Box direction='row'>
+        <Box justify='center'>
+          {this.renderUserName()}
+        </Box>
+        
+        <Button
+          label='Sign out'
+          onClick={this.onLogout}/>
+      </Box>
     ) : (
       <Box direction='row'>
         <Button
@@ -75,8 +90,8 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => {
-  return { user }
+const mapStateToProps = ({ user, userName }) => {
+  return { user, userName }
 }
 
 export default connect(mapStateToProps)(Header)
