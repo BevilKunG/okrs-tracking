@@ -39,7 +39,7 @@ class ObjectiveList extends Component {
     return this.props.objectives.map((objective, index) => {
       return (
         <ObjectiveCard
-          key={objective.label + index}
+          key={objective.id}
           objective={objective}
           objectiveIndex={index}
           onCardClick={this.openObjective}/>
