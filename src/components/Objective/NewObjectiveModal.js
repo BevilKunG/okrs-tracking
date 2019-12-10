@@ -5,6 +5,8 @@ import { addObjective } from '../../actions'
 import { Layer, Box, Heading, TextInput, Button } from 'grommet'
 import { Close } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 class NewObjectiveModal extends Component {
   state = {
@@ -16,20 +18,44 @@ class NewObjectiveModal extends Component {
     showAddButton: false
   }
 
+  saveReduxStore = (objective, objectiveId) => {
+    this.props.addObjective({
+      id: objectiveId,
+      ...objective
+    })
+  }
+
+  saveFirestore = (objective) => {
+    const docRef = firebase.firestore()
+                    .collection('userObjectives')
+                    .doc(this.props.user.uid)
+                    .collection('objectives')
+                    .doc()
+
+    docRef.set({
+      id: docRef.id,
+      ...objective
+    })
+
+    return docRef.id
+  }
+
   onCloseModal = () => {
-    // firebase save
     if(this.state.objectiveLabel !== '') {
       let progress = Math.floor(
         this.state.keyResults
           .reduce((sum, keyResult) => sum + keyResult.progress, 0) /
           this.state.keyResults.length
       )
-
-      this.props.addObjective({
+      let objective = {
         label: this.state.objectiveLabel,
         progress,
         keyResults: this.state.keyResults
-      })
+      }
+
+      const objectiveId = this.saveFirestore(objective)
+      this.saveReduxStore(objective, objectiveId)
+
     }
     this.props.onCardClose()
   }
@@ -171,10 +197,14 @@ class NewObjectiveModal extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => {
+  return { user }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     addObjective
   }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(NewObjectiveModal)
+export default connect(mapStateToProps, mapDispatchToProps)(NewObjectiveModal)

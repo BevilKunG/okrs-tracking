@@ -5,6 +5,8 @@ import { updateObjective } from '../../actions'
 import { Layer, Box, Heading, Button, TextInput } from 'grommet'
 import { Close } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 class ObjectiveModal extends Component {
   state = {
@@ -19,26 +21,39 @@ class ObjectiveModal extends Component {
     this.setState({ keyResults: this.props.objective.keyResults })
   }
 
-  onCloseModal = () => {
-    // firebase save
-    if(this.state.isUpdate) {
-      const { label } = this.props.objective
+  saveFirestore = (objective, objectiveId) => {
+    firebase.firestore()
+      .collection('userObjectives')
+      .doc(this.props.user.uid)
+      .collection('objectives')
+      .doc(objectiveId)
+      .update(objective)
+  }
 
+  saveReduxStore = (objective) => {
+    this.props.updateObjective(
+        this.props.objectiveIndex,
+        objective
+    )
+  }
+
+  onCloseModal = () => {
+    if(this.state.isUpdate) {
+      const { id, label } = this.props.objective
       let progress = Math.floor(
         this.state.keyResults
           .reduce((sum, keyResult) => sum + keyResult.progress, 0) /
           this.state.keyResults.length
       )
+      let objective = {
+        id,
+        label,
+        progress,
+        keyResults: this.state.keyResults
+      }
 
-      // console.log(progress);
-      this.props.updateObjective(
-          this.props.objectiveIndex,
-          {
-            label,
-            progress,
-            keyResults: this.state.keyResults
-          }
-      )
+      this.saveReduxStore(objective)
+      this.saveFirestore(objective, id)
       this.setState({ isUpdate: false })
     }
     this.props.onCardClose()
@@ -78,7 +93,6 @@ class ObjectiveModal extends Component {
 
   onKeyResultEnter = (e) => {
     if(e.key === 'Enter' && this.state.keyResultLabel !== '') {
-      // save
       this.handleKeyResult()
     }
   }
@@ -89,7 +103,10 @@ class ObjectiveModal extends Component {
       progress: 0,
       progressDetailList: []
     }
-    this.setState({ keyResults: [...this.state.keyResults, keyResult] })
+    this.setState({
+      keyResults: [...this.state.keyResults, keyResult],
+      isUpdate: true
+     })
     this.setState({ keyResultLabel: '' })
   }
 
@@ -129,7 +146,7 @@ class ObjectiveModal extends Component {
             basis='1/4'
             justify='center'
             align='center'
-            onClick={this.props.onCardClose}
+            onClick={this.onCloseModal}
             hoverIndicator>
             <Close/>
           </Box>
@@ -154,10 +171,14 @@ class ObjectiveModal extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => {
+  return { user }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     updateObjective
   }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(ObjectiveModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ObjectiveModal)

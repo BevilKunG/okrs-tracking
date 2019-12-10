@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { setUser } from './actions'
+import { setUser, setObjectives } from './actions'
 import { Grommet } from 'grommet'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -41,8 +41,11 @@ class App extends Component {
     firebase.firestore()
       .collection('userObjectives')
       .doc(user.uid)
+      .collection('objectives')
       .get()
-      .then((docs) => console.log(docs.data()))
+      .then((querySnapshot) => {
+        this.props.setObjectives(querySnapshot.docs.map((doc) => doc.data()))
+      })
   }
 
 
@@ -61,7 +64,8 @@ const mapStateToProps = ({ userName }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    setUser
+    setUser,
+    setObjectives
   }, dispatch)
 }
 
