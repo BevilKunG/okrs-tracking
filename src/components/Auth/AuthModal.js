@@ -46,11 +46,13 @@ class AuthModal extends Component {
       <Form
         onSubmit={this.onLoginFormSubmit}>
         <FormField
+          type='email'
           label='Email'
           name='email'
           required/>
 
         <FormField
+          type='password'
           label='Password'
           name='password'
           required/>
@@ -76,6 +78,7 @@ class AuthModal extends Component {
           required/>
 
         <FormField
+          type='email'
           name='email'
           label='Email'
           required/>

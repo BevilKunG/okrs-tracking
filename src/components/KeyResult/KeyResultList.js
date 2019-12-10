@@ -55,7 +55,7 @@ class KeyResultList extends Component {
     return this.props.keyResults.map((keyResult, index) => {
       return (
         <Box
-          key={keyResult.label}
+          key={keyResult.label + index}
           flex={false}>
           <Box
             direction='row'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading } from 'grommet'
+import { Heading } from 'grommet'
 import Layout from '../components/Layout/Layout'
 import ObjectiveList from '../components/Objective/ObjectiveList'
 
