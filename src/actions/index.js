@@ -1,6 +1,7 @@
 import { SET_OBJECTIVES,
         ADD_OBJECTIVE,
         UPDATE_OBJECTIVE,
+        DELETE_OBJECTIVE,
         SET_USER,
         SET_USER_NAME } from './types'
 
@@ -28,6 +29,15 @@ export const updateObjective = (updatedIndex, updatedObjective) => {
     payload: {
       updatedIndex,
       updatedObjective
+    }
+  }
+}
+
+export const deleteObjective = (deletedIndex) => {
+  return {
+    type: DELETE_OBJECTIVE,
+    payload: {
+      deletedIndex
     }
   }
 }

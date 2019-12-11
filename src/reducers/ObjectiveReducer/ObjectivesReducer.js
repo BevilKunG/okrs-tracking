@@ -1,4 +1,4 @@
-import { SET_OBJECTIVES, ADD_OBJECTIVE, UPDATE_OBJECTIVE } from '../../actions/types'
+import { SET_OBJECTIVES, ADD_OBJECTIVE, UPDATE_OBJECTIVE, DELETE_OBJECTIVE } from '../../actions/types'
 
 export default (state = [], action) => {
   switch(action.type) {
@@ -9,6 +9,12 @@ export default (state = [], action) => {
       ...state.slice(0, action.payload.updatedIndex),
       action.payload.updatedObjective,
       ...state.slice(action.payload.updatedIndex + 1)
+      ]
+    }
+    case DELETE_OBJECTIVE: {
+      return [
+        ...state.slice(0, action.payload.deletedIndex),
+        ...state.slice(action.payload.deletedIndex + 1)
       ]
     }
     default: return state

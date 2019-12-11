@@ -7,19 +7,18 @@ const NewObjectiveCard = ({ onCardClick }) => {
     <Box
       direction='column'
       basis='medium'
-      pad='medium'
       margin='medium'
       elevation='small'
       animation='fadeIn'
       onClick={onCardClick}
       background='dark-3'
       hoverIndicator={{ color: 'dark-2' }}>
-
-      <Heading>
-        <Add/>
-        {'New Objective'}
-      </Heading>
-
+      <Box pad={{ horizontal: 'medium', vertical: 'large' }}>
+        <Heading>
+          <Add/>
+          {'New Objective'}
+        </Heading>
+      </Box>
     </Box>
   )
 }
