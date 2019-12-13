@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { setUserName } from '../../actions'
 import { Layer, Box, Form, FormField, Text, Button } from 'grommet'
 import { Close } from 'grommet-icons'
+import { ClipLoader } from 'react-spinners'
 import { LOGIN, REGISTER } from './types'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -11,7 +12,10 @@ import 'firebase/auth'
 class AuthModal extends Component {
 
   state = {
-    selectedTab: LOGIN
+    selectedTab: LOGIN,
+    errorMessage: '',
+    loginLoading: false,
+    registerLoading: false
   }
 
   componentDidMount() {
@@ -19,42 +23,84 @@ class AuthModal extends Component {
   }
 
   onLoginFormSubmit = ({ value }) => {
+    this.setState({ loginLoading: true })
     firebase.auth()
-      .signInWithEmailAndPassword(value.email, value.password)
+      .signInWithEmailAndPassword(value.loginEmail, value.loginPassword)
+      .then(() => {
+        this.setState({ loginLoading: false })
+      })
       .catch((error) => {
+        this.setState({
+          loginLoading: false ,
+          errorMessage: error.code
+        })
         console.log(error)
       })
   }
 
   onRegisterFormSubmit = ({ value }) => {
-    this.props.setUserName(value.name)
+    this.props.setUserName(value.registerName)
+    this.setState({ registerLoading: true })
 
     firebase.auth()
-    .createUserWithEmailAndPassword(value.email, value.password)
+    .createUserWithEmailAndPassword(value.registerEmail, value.registerPassword)
+    .then(() => {
+      this.setState({ registerLoading: false })
+    })
     .catch((error) => {
+      this.setState({
+        registerLoading: false,
+        errorMessage: error.code
+      })
       console.log(error)
     })
   }
 
-  validateConfirmPassword = (confirmPassword, { password }) => {
-    if(confirmPassword !== password) return 'Password mismatch'
+  onSelectTab = (selectedTab) => {
+    this.setState({
+      selectedTab,
+      errorMessage: ''
+    })
+  }
+
+  validateConfirmPassword = (registerConfirmPassword, { registerPassword }) => {
+    if(registerConfirmPassword !== registerPassword) return 'Password mismatch'
+  }
+
+  renderLoginSpinner() {
+    return this.state.loginLoading ? (
+      <ClipLoader
+        color='white'
+        size={10}
+        loading={this.state.loginLoading}/>
+    ) : null
+  }
+
+  renderRegisterSpinner() {
+    return this.state.registerLoading ? (
+      <ClipLoader
+        color='white'
+        size={10}
+        loading={this.state.registerLoading}/>
+    ) : null
   }
 
 
   renderLoginForm() {
-    return (
+    return this.state.selectedTab === LOGIN && (
       <Form
         onSubmit={this.onLoginFormSubmit}>
+        {this.renderErrorMessage()}
         <FormField
           type='email'
           label='Email'
-          name='email'
+          name='loginEmail'
           required/>
 
         <FormField
           type='password'
           label='Password'
-          name='password'
+          name='loginPassword'
           required/>
 
         <Box
@@ -63,6 +109,7 @@ class AuthModal extends Component {
           <Button
             type='submit'
             label='Submit'
+            icon={this.renderLoginSpinner()}
             color='white'/>
         </Box>
       </Form>
@@ -70,29 +117,30 @@ class AuthModal extends Component {
   }
 
   renderRegisterForm() {
-    return (
+    return this.state.selectedTab === REGISTER && (
       <Form
         onSubmit={this.onRegisterFormSubmit}>
+        {this.renderErrorMessage()}
         <FormField
-          name='name'
+          name='registerName'
           label='Name'
           required/>
 
         <FormField
           type='email'
-          name='email'
+          name='registerEmail'
           label='Email'
           required/>
 
         <FormField
           type='password'
-          name='password'
+          name='registerPassword'
           label='Password'
           required/>
 
         <FormField
           type='password'
-          name='confirmPassword'
+          name='registerConfirmPassword'
           label='Confirm Password'
           validate={this.validateConfirmPassword}
           required/>
@@ -103,9 +151,21 @@ class AuthModal extends Component {
             <Button
               type='submit'
               label='Submit'
+              icon={this.renderRegisterSpinner()}
               color='white'/>
           </Box>
       </Form>
+    )
+  }
+
+  renderErrorMessage() {
+    return this.state.errorMessage.length !== 0 && (
+      <Box
+        background='status-error'
+        margin={{ vertical: 'small' }}
+        pad='small'>
+        <Text>{this.state.errorMessage}</Text>
+      </Box>
     )
   }
 
@@ -125,14 +185,14 @@ class AuthModal extends Component {
         <Box
           margin={{ right: 'medium' }}
           pad='small'
-          onClick={() => this.setState({ selectedTab: LOGIN })}
+          onClick={() => this.onSelectTab(LOGIN)}
           hoverIndicator>
           <Text>{'Login'}</Text>
         </Box>
 
         <Box
           pad='small'
-          onClick={() => this.setState({ selectedTab: REGISTER })}
+          onClick={() => this.onSelectTab(REGISTER)}
           hoverIndicator>
           <Text>{'Register'}</Text>
         </Box>
@@ -162,6 +222,7 @@ class AuthModal extends Component {
               justify='center'
               align='center'
               margin={{ right: 'medium' }}
+              pad={{ horizontal: 'small' }}
               onClick={this.props.onModalClose}
               hoverIndicator>
               <Close/>
