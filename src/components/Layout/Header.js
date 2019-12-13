@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Box, Heading, Button, Text } from 'grommet'
+import { Box, Heading, Button, Text, Menu } from 'grommet'
+import { Menu as MenuIcon } from 'grommet-icons'
 import { User, UserNew } from 'grommet-icons'
 import AuthModal from '../Auth/AuthModal'
 import { LOGIN, REGISTER } from '../Auth/types'
@@ -47,17 +48,28 @@ class Header extends Component {
     )
   }
 
+  renderMenu() {
+    return (
+      <Menu
+        dropBackground='layout-background'
+        icon={<MenuIcon/>}
+        items={[
+          { label: 'Logout', onClick: this.onLogout}
+        ]}/>
+    )
+  }
+
   renderButton() {
     return this.props.user ? (
       <Box direction='row'>
         <Box justify='center'>
           {this.renderUserName()}
         </Box>
-
-        <Button
-          label='Logout'
-          color='white'
-          onClick={this.onLogout}/>
+        <Box
+          margin={{ right: 'medium' }}
+          justify='center'>
+          {this.renderMenu()}
+        </Box>
       </Box>
     ) : (
       <Box direction='row'>
