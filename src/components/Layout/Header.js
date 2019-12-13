@@ -55,7 +55,8 @@ class Header extends Component {
         </Box>
 
         <Button
-          label={<Text>{'Logout'}</Text>}
+          label='Logout'
+          color='white'
           onClick={this.onLogout}/>
       </Box>
     ) : (
@@ -63,11 +64,13 @@ class Header extends Component {
         <Button
           label='Login'
           icon={<User/>}
+          color='white'
           margin={{ right: 'small' }}
           onClick={() => this.openAuthModal(LOGIN)}/>
         <Button
           label='Register'
           icon={<UserNew/>}
+          color='white'
           onClick={() => this.openAuthModal(REGISTER)}/>
       </Box>
     )

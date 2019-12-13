@@ -1,10 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { ThemeContext, Box } from 'grommet'
 import { styles } from '../../styles'
 import Header from './Header'
 
-const Layout = ({ children, objectives }) => {
+const Layout = ({ children }) => {
   const { colors } = styles
   return (
     <ThemeContext.Extend
@@ -22,7 +21,7 @@ const Layout = ({ children, objectives }) => {
       <Box
         align='center'
         background='layout-background'
-        fill={objectives.length === 0}>
+        height={{ min: 'xlarge' }}>
         <Header/>
         {children}
       </Box>
@@ -30,8 +29,4 @@ const Layout = ({ children, objectives }) => {
   )
 }
 
-const mapStateToProps = ({ objectives }) => {
-  return { objectives }
-}
-
-export default connect(mapStateToProps)(Layout)
+export default Layout

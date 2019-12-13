@@ -62,7 +62,8 @@ class AuthModal extends Component {
           align='end'>
           <Button
             type='submit'
-            label='Submit'/>
+            label='Submit'
+            color='white'/>
         </Box>
       </Form>
     )
@@ -101,7 +102,8 @@ class AuthModal extends Component {
             align='end'>
             <Button
               type='submit'
-              label='Submit'/>
+              label='Submit'
+              color='white'/>
           </Box>
       </Form>
     )
@@ -146,26 +148,30 @@ class AuthModal extends Component {
         onEsc={this.props.onModalClose}
         onClickOutside={this.props.onModalClose}>
         <Box
-          direction='row'
-          margin={{ top: 'medium' }}>
+          background='layout-background'
+          fill>
+          <Box
+            direction='row'
+            margin={{ top: 'medium' }}>
 
-          <Box basis='xlarge'>
-            {this.renderTabs()}
+            <Box basis='xlarge'>
+              {this.renderTabs()}
+            </Box>
+
+            <Box
+              justify='center'
+              align='center'
+              margin={{ right: 'medium' }}
+              onClick={this.props.onModalClose}
+              hoverIndicator>
+              <Close/>
+            </Box>
           </Box>
 
           <Box
-            justify='center'
-            align='center'
-            margin={{ right: 'medium' }}
-            onClick={this.props.onModalClose}
-            hoverIndicator>
-            <Close/>
+            margin={{ top: 'medium', horizontal: 'xlarge' }}>
+            {this.renderTab()}
           </Box>
-        </Box>
-
-        <Box
-          margin={{ top: 'medium', horizontal: 'xlarge' }}>
-          {this.renderTab()}
         </Box>
       </Layer>
     )
