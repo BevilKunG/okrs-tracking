@@ -10,9 +10,9 @@ const NewObjectiveCard = ({ onCardClick }) => {
       margin='medium'
       elevation='small'
       animation='fadeIn'
-      onClick={onCardClick}
       background='dark-3'
-      hoverIndicator={{ color: 'dark-2' }}>
+      onClick={onCardClick}
+      hoverIndicator='dark-2'>
       <Box pad={{ horizontal: 'medium', vertical: 'large' }}>
         <Heading>
           <Add/>

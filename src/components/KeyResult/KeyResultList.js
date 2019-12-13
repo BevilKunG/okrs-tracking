@@ -31,7 +31,8 @@ class KeyResultList extends Component {
         animation={{
           type: 'slideDown',
           duration: 300
-        }}>
+        }}
+        margin={{ horizontal: 'small' }}>
         <ProgressLog
           keyResult={keyResult}
           keyResultIndex={keyResultIndex}
@@ -56,25 +57,27 @@ class KeyResultList extends Component {
       return (
         <Box
           key={keyResult.label + index}
-          flex={false}>
+          flex={false}
+          margin={{ vertical: 'small' }}>
           <Box
-            direction='row'
             pad={{ vertical: 'medium'}}
             onClick={() => this.onKeyResultSelect(index)}>
-
-            <Box basis='3/4'>
-              <Text>{keyResult.label}</Text>
-            </Box>
-
             <Box
-              margin={{ right: 'small' }}>
-              <Meter values={[{value: keyResult.progress}]}/>
-            </Box>
+              direction='row'
+              margin={{ horizontal: 'small' }}>
+              <Box basis='3/4'>
+                <Text color='white'>{keyResult.label}</Text>
+              </Box>
 
-            <Box>
-              {this.renderSign(index)}
-            </Box>
+              <Box
+                margin={{ right: 'small' }}>
+                <Meter values={[{value: keyResult.progress}]}/>
+              </Box>
 
+              <Box>
+                {this.renderSign(index)}
+              </Box>
+            </Box>
           </Box>
           {this.renderProgressLog(keyResult, index)}
         </Box>

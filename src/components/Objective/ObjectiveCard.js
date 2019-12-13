@@ -9,7 +9,18 @@ import 'firebase/firestore'
 
 class ObjectiveCard extends Component {
   state = {
+    cardBackground: '',
     mouseOverMore: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      cardBackground: this.calculateCardColor()
+    })
+  }
+
+  calculateCardColor = () => {
+      return `card-background-${(this.props.objectiveIndex % 4) + 1}`
   }
 
   onCardClick = () => {
@@ -50,7 +61,7 @@ class ObjectiveCard extends Component {
               { label: 'Delete', onClick: this.onDelete}
             ]}>
             <Box align='end'>
-              <More/>
+              <More color='white'/>
             </Box>
           </Menu>
         </Box>
@@ -62,7 +73,7 @@ class ObjectiveCard extends Component {
     return (
       <Box
         pad={{ horizontal: 'medium', top: 'medium', bottom: 'large' }}>
-        <Heading>{this.props.objective.label}</Heading>
+        <Heading color='white'>{this.props.objective.label}</Heading>
         <Meter
           values={[{
             value:this.props.objective.progress,
@@ -80,6 +91,7 @@ class ObjectiveCard extends Component {
         margin='medium'
         elevation='small'
         animation='fadeIn'
+        background={this.state.cardBackground}
         onClick={this.onCardClick}
         hoverIndicator>
 

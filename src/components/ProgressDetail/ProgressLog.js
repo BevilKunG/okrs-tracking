@@ -152,6 +152,7 @@ class ProgressLog extends Component {
 
           <Box basis='3/4'>
             <Text
+              color='white'
               margin={{ left: 'medium'}}>
               {progressDetail.label}
             </Text>

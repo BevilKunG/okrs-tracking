@@ -12,13 +12,21 @@ class ObjectiveModal extends Component {
   state = {
     keyResults: [],
     keyResultLabel: '',
+    cardBackground: '',
     isUpdate: false,
     addKeyResult: false,
     showAddButton: true
   }
 
   componentDidMount() {
-    this.setState({ keyResults: this.props.objective.keyResults })
+    this.setState({
+      keyResults: this.props.objective.keyResults,
+      cardBackground: this.calculateCardColor()
+    })
+  }
+
+  calculateCardColor = () => {
+    return `card-background-${(this.props.objectiveIndex % 4) + 1}`
   }
 
   saveFirestore = (objective, objectiveId) => {
@@ -137,34 +145,43 @@ class ObjectiveModal extends Component {
         margin='xlarge'
         full>
         <Box
-          direction='row'>
-          <Box basis='3/4'>
-            <Heading margin={{ left: 'medium'}}>{this.props.objective.label}</Heading>
+          background={this.state.cardBackground}
+          fill>
+          <Box
+            direction='row'>
+            <Box basis='3/4'>
+              <Heading
+                color='white'
+                margin={{ left: 'medium'}}>
+                {this.props.objective.label}
+              </Heading>
+            </Box>
+
+            <Box
+              basis='1/4'
+              justify='center'
+              align='center'
+              onClick={this.onCloseModal}
+              hoverIndicator>
+              <Close/>
+            </Box>
           </Box>
 
           <Box
-            basis='1/4'
-            justify='center'
-            align='center'
-            onClick={this.onCloseModal}
-            hoverIndicator>
-            <Close/>
+            margin={{ horizontal: 'large', top: 'medium'}}>
+            <Box
+              overflow='auto'
+              height={{ max: 'medium' }}
+              margin={{ vertical: 'small' }}>
+              <KeyResultList
+                keyResults={this.state.keyResults}
+                onKeyResultUpdate={this.onKeyResultUpdate}
+                onKeyResultShow={this.onKeyResultShow}
+                onKeyResultHide={this.onKeyResultHide}/>
+            </Box>
+            {this.renderKeyResultInput()}
+            {this.renderAddButton()}
           </Box>
-        </Box>
-
-        <Box margin={{ horizontal: 'large', top: 'medium'}}>
-          <Box
-            overflow='auto'
-            height={{ max: 'medium' }}
-            margin={{ vertical: 'small' }}>
-            <KeyResultList
-              keyResults={this.state.keyResults}
-              onKeyResultUpdate={this.onKeyResultUpdate}
-              onKeyResultShow={this.onKeyResultShow}
-              onKeyResultHide={this.onKeyResultHide}/>
-          </Box>
-          {this.renderKeyResultInput()}
-          {this.renderAddButton()}
         </Box>
       </Layer>
     )
