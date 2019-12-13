@@ -62,7 +62,7 @@ class AuthModal extends Component {
           align='end'>
           <Button
             type='submit'
-            label='Sign in'/>
+            label='Submit'/>
         </Box>
       </Form>
     )
@@ -101,7 +101,7 @@ class AuthModal extends Component {
             align='end'>
             <Button
               type='submit'
-              label='Sign up'/>
+              label='Submit'/>
           </Box>
       </Form>
     )
@@ -122,13 +122,17 @@ class AuthModal extends Component {
         justify='center'>
         <Box
           margin={{ right: 'medium' }}
-          onClick={() => this.setState({ selectedTab: LOGIN })}>
-          <Text>Sign in</Text>
+          pad='small'
+          onClick={() => this.setState({ selectedTab: LOGIN })}
+          hoverIndicator>
+          <Text>{'Login'}</Text>
         </Box>
 
         <Box
-          onClick={() => this.setState({ selectedTab: REGISTER })}>
-          <Text>Sign up</Text>
+          pad='small'
+          onClick={() => this.setState({ selectedTab: REGISTER })}
+          hoverIndicator>
+          <Text>{'Register'}</Text>
         </Box>
       </Box>
     )

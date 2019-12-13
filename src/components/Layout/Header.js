@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Box, Heading, Button, Text } from 'grommet'
+import { User, UserNew } from 'grommet-icons'
 import AuthModal from '../Auth/AuthModal'
 import { LOGIN, REGISTER } from '../Auth/types'
 import firebase from 'firebase/app'
@@ -39,7 +40,8 @@ class Header extends Component {
   renderUserName() {
     return (
       <Text
-        margin={{ right: 'medium' }}>
+        margin={{ right: 'medium' }}
+        weight='bold'>
         {!this.props.user.displayName ? this.props.userName : this.props.user.displayName}
       </Text>
     )
@@ -51,19 +53,21 @@ class Header extends Component {
         <Box justify='center'>
           {this.renderUserName()}
         </Box>
-        
+
         <Button
-          label='Sign out'
+          label={<Text>{'Logout'}</Text>}
           onClick={this.onLogout}/>
       </Box>
     ) : (
       <Box direction='row'>
         <Button
-          label='Sign in'
+          label='Login'
+          icon={<User/>}
           margin={{ right: 'small' }}
           onClick={() => this.openAuthModal(LOGIN)}/>
         <Button
-          label='Sign up'
+          label='Register'
+          icon={<UserNew/>}
           onClick={() => this.openAuthModal(REGISTER)}/>
       </Box>
     )
@@ -74,13 +78,24 @@ class Header extends Component {
       <Box
         direction='row'
         fill='horizontal'
-        background='dark-1'>
+        pad={{ vertical: 'xsmall' }}
+        elevation='xsmall'>
 
-        <Box basis='3/4'>
-          <Heading margin={{ left: 'medium' }}>{'OKRS-TRACKING'}</Heading>
+        <Box
+          basis='3/4'
+          justify='center'>
+          <Heading
+            margin={{ left: 'medium' }}
+            size='small'>
+              {'OKRS-TRACKING'}
+            </Heading>
         </Box>
 
-        <Box justify='center' margin={{ right: 'small' }}>
+        <Box
+          basis='1/4'
+          justify='center'
+          align='end'
+          margin={{ right: 'medium' }}>
           {this.renderButton()}
         </Box>
 
