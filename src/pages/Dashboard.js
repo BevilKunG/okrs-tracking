@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Layout from '../components/Layout/Layout'
 import ObjectiveList from '../components/Objective/ObjectiveList'
+import LoadingObjective from '../components/Loading/LoadingObjective'
 
-const Dashboard = () => {
-  return (
-    <Layout>
+class Dashboard extends Component {
+  renderList() {
+    return !this.props.loading ? (
       <ObjectiveList/>
-    </Layout>
-  )
+    ) : (
+      <LoadingObjective loading={this.props.loading}/>
+    )
+
+  }
+
+  render() {
+    return (
+      <Layout>
+        {this.renderList()}
+      </Layout>
+    )
+  }
 }
 
-export default Dashboard
+const mapStateToProps = ({ loading }) => {
+  return { loading }
+}
+
+export default connect(mapStateToProps)(Dashboard)

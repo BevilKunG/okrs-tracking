@@ -3,7 +3,8 @@ import { SET_OBJECTIVES,
         UPDATE_OBJECTIVE,
         DELETE_OBJECTIVE,
         SET_USER,
-        SET_USER_NAME } from './types'
+        SET_USER_NAME,
+        SET_LOADING } from './types'
 
 export const setObjectives = (objectives) => {
   return {
@@ -56,6 +57,15 @@ export const setUserName = (userName) => {
     type: SET_USER_NAME,
     payload: {
       userName
+    }
+  }
+}
+
+export const setLoading = (loading) => {
+  return {
+    type: SET_LOADING,
+    payload: {
+      loading
     }
   }
 }
