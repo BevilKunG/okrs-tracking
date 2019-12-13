@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Box, Text, Button, TextInput } from 'grommet'
-import { StatusGoodSmall } from 'grommet-icons'
+import { StatusGoodSmall, Location } from 'grommet-icons'
 
 class ProgressLog extends Component {
 
@@ -90,7 +90,9 @@ class ProgressLog extends Component {
     return !this.state.updateProgress && (
       <Button
         margin={{vertical: 'medium', horizontal: 'xlarge'}}
-        label='Update Log'
+        label={<Text color='white'>{'Check in'}</Text>}
+        icon={<Location color='white'/>}
+        color='white'
         onClick={this.onAddClick}/>
     )
   }

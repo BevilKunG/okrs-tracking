@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { updateObjective } from '../../actions'
-import { Layer, Box, Heading, Button, TextInput } from 'grommet'
-import { Close } from 'grommet-icons'
+import { Layer, Box, Heading, Button, Text, TextInput } from 'grommet'
+import { Close, Add } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -121,7 +121,9 @@ class ObjectiveModal extends Component {
   renderAddButton() {
     return this.state.showAddButton && (
         <Button
-          label='Add Key Result'
+          label={<Text color='white'>{'New Key Result'}</Text>}
+          icon={<Add color='white'/>}
+          color='white'
           margin={{vertical: 'medium', horizontal: 'xlarge'}}
           onClick={this.onAddClick}/>
     )
@@ -163,7 +165,7 @@ class ObjectiveModal extends Component {
               align='center'
               onClick={this.onCloseModal}
               hoverIndicator>
-              <Close/>
+              <Close color='white'/>
             </Box>
           </Box>
 
