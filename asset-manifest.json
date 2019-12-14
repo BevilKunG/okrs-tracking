@@ -1,18 +1,20 @@
 {
   "files": {
-    "main.js": "/okrs-tracking/static/js/main.da88f2a8.chunk.js",
-    "main.js.map": "/okrs-tracking/static/js/main.da88f2a8.chunk.js.map",
+    "main.js": "/okrs-tracking/static/js/main.0b1f2033.chunk.js",
+    "main.js.map": "/okrs-tracking/static/js/main.0b1f2033.chunk.js.map",
     "runtime-main.js": "/okrs-tracking/static/js/runtime-main.eaf56b0d.js",
     "runtime-main.js.map": "/okrs-tracking/static/js/runtime-main.eaf56b0d.js.map",
-    "static/js/2.8af4895c.chunk.js": "/okrs-tracking/static/js/2.8af4895c.chunk.js",
-    "static/js/2.8af4895c.chunk.js.map": "/okrs-tracking/static/js/2.8af4895c.chunk.js.map",
+    "static/js/2.d7ea3d8f.chunk.js": "/okrs-tracking/static/js/2.d7ea3d8f.chunk.js",
+    "static/js/2.d7ea3d8f.chunk.js.map": "/okrs-tracking/static/js/2.d7ea3d8f.chunk.js.map",
     "index.html": "/okrs-tracking/index.html",
-    "precache-manifest.0430887dd15a850aee2f293f3ad626e5.js": "/okrs-tracking/precache-manifest.0430887dd15a850aee2f293f3ad626e5.js",
-    "service-worker.js": "/okrs-tracking/service-worker.js"
+    "precache-manifest.03c46811e9eb51c1fbde99670341ee3d.js": "/okrs-tracking/precache-manifest.03c46811e9eb51c1fbde99670341ee3d.js",
+    "service-worker.js": "/okrs-tracking/service-worker.js",
+    "static/media/dream_1.png": "/okrs-tracking/static/media/dream_1.c51d0f10.png",
+    "static/media/peak_mountain_3.png": "/okrs-tracking/static/media/peak_mountain_3.2f016709.png"
   },
   "entrypoints": [
     "static/js/runtime-main.eaf56b0d.js",
-    "static/js/2.8af4895c.chunk.js",
-    "static/js/main.da88f2a8.chunk.js"
+    "static/js/2.d7ea3d8f.chunk.js",
+    "static/js/main.0b1f2033.chunk.js"
   ]
 }
