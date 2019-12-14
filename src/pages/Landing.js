@@ -1,17 +1,11 @@
 import React from 'react'
-import { Heading, Paragraph } from 'grommet'
 import Layout from '../components/Layout/Layout'
+import Content from '../components/Landing/Content'
 
 const Landing = () => {
   return (
     <Layout>
-      <Heading
-        textAlign='center'>
-        {'Landing'}
-        </Heading>
-        <Paragraph>
-        lorem
-        </Paragraph>
+      <Content/>
     </Layout>
   )
 }
