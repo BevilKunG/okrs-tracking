@@ -10,11 +10,16 @@ class ObjectiveList extends Component {
   state = {
     showModal: false,
     showNewModal: false,
-    selectedObjective: null
+    selectedObjective: null,
+    selectedIndex: null
   }
 
-  openObjective = (objective) => {
-    this.setState({ showModal: true, selectedObjective: objective })
+  openObjective = (objectiveIndex, objective) => {
+    this.setState({
+      showModal: true,
+      selectedObjective: objective,
+      selectedIndex: objectiveIndex
+     })
   }
 
   closeObjective = () => {
@@ -29,26 +34,63 @@ class ObjectiveList extends Component {
     this.setState({ showNewModal: false })
   }
 
-
-  renderCard() {
-    return this.props.objectives.map((objective, index) => {
+  renderDemoCard() {
+    return this.props.demoObjectives.map((objective, index) => {
       return (
         <ObjectiveCard
           key={objective.label + index}
           objective={objective}
-          onCardClick={this.openObjective}/>
+          objectiveIndex={index}
+          onCardClick={this.openObjective}
+          demo={this.props.demo}
+          />
       )
     })
+  }
+
+
+  renderCard() {
+    if(!this.props.demo) {
+      return this.props.objectives.map((objective, index) => {
+        return (
+          <ObjectiveCard
+            key={objective.id}
+            objective={objective}
+            objectiveIndex={index}
+            onCardClick={this.openObjective}
+            />
+        )
+      })
+    } else {
+      return this.renderDemoCard()
+    }
+  }
+
+  renderNewCard() {
+    if(!this.props.demo) {
+      return (
+        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+      )
+    } else {
+      return this.props.demoObjectives.length < 3 && (
+        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+      )
+    }
+
   }
 
   renderModal() {
     return (this.state.showModal && (
       <ObjectiveModal
         objective={this.state.selectedObjective}
-        onCardClose={this.closeObjective}/>
+        objectiveIndex={this.state.selectedIndex}
+        onCardClose={this.closeObjective}
+        demo={!!this.props.demo}/>
     )) ||
     (this.state.showNewModal && (
-      <NewObjectiveModal onCardClose={this.closeNewObjective}/>
+      <NewObjectiveModal
+        onCardClose={this.closeNewObjective}
+        demo={!!this.props.demo}/>
     ))
   }
 
@@ -56,18 +98,18 @@ class ObjectiveList extends Component {
     return (
       <Box
         direction='row'
-        margin='medium' 
+        margin={{ vertical: 'medium', horizontal: 'large'}}
         wrap>
         {this.renderCard()}
         {this.renderModal()}
-        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+        {this.renderNewCard()}
       </Box>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return state
+const mapStateToProps = ({ objectives, demoObjectives }) => {
+  return { objectives, demoObjectives }
 }
 
 export default connect(mapStateToProps)(ObjectiveList)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, Meter, Text } from 'grommet'
+import { Box, Heading } from 'grommet'
 import { Add } from 'grommet-icons'
 
 const NewObjectiveCard = ({ onCardClick }) => {
@@ -7,19 +7,18 @@ const NewObjectiveCard = ({ onCardClick }) => {
     <Box
       direction='column'
       basis='medium'
-      pad='medium'
       margin='medium'
       elevation='small'
       animation='fadeIn'
-      onClick={onCardClick}
       background='dark-3'
-      hoverIndicator={{ color: 'dark-2' }}>
-
-      <Heading>
-        <Add/>
-        {'New Objective'}
-      </Heading>
-
+      onClick={onCardClick}
+      hoverIndicator='dark-2'>
+      <Box pad={{ horizontal: 'medium', vertical: 'large' }}>
+        <Heading>
+          <Add/>
+          {'New Objective'}
+        </Heading>
+      </Box>
     </Box>
   )
 }

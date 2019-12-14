@@ -1,14 +1,30 @@
-import React from 'react'
-import { Box, Heading } from 'grommet'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Layout from '../components/Layout/Layout'
 import ObjectiveList from '../components/Objective/ObjectiveList'
+import LoadingObjective from '../components/Loading/LoadingObjective'
 
-const Dashboard = () => {
-  return (
-    <Box align='center'>
-      <Heading textAlign='center'>{'Dashboard'}</Heading>
+class Dashboard extends Component {
+  renderList() {
+    return !this.props.loading ? (
       <ObjectiveList/>
-    </Box>
-  )
+    ) : (
+      <LoadingObjective loading={this.props.loading}/>
+    )
+
+  }
+
+  render() {
+    return (
+      <Layout>
+        {this.renderList()}
+      </Layout>
+    )
+  }
 }
 
-export default Dashboard
+const mapStateToProps = ({ loading }) => {
+  return { loading }
+}
+
+export default connect(mapStateToProps)(Dashboard)

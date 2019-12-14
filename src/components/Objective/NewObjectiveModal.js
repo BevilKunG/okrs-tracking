@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addObjective } from '../../actions'
-import { Layer, Box, Heading, TextInput, Button } from 'grommet'
-import { Close } from 'grommet-icons'
+import { addObjective, addDemo } from '../../actions'
+import { Layer, Box, Heading, TextInput, Button, Text } from 'grommet'
+import { Close, Add } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 class NewObjectiveModal extends Component {
   state = {
@@ -13,24 +15,88 @@ class NewObjectiveModal extends Component {
     keyResults: [],
     editHeading: true,
     addKeyResult: false,
+    showAddButton: false
+  }
+
+  saveReduxStore = (objective, objectiveId) => {
+    this.props.addObjective({
+      id: objectiveId,
+      ...objective
+    })
+  }
+
+  saveFirestore = (objective) => {
+    const docRef = firebase.firestore()
+                    .collection('userObjectives')
+                    .doc(this.props.user.uid)
+                    .collection('objectives')
+                    .doc()
+
+    docRef.set({
+      id: docRef.id,
+      ...objective
+    })
+
+    return docRef.id
   }
 
   onCloseModal = () => {
-    // firebase save
     if(this.state.objectiveLabel !== '') {
-      this.props.addObjective({
+      let progress = Math.floor(
+        this.state.keyResults
+          .reduce((sum, keyResult) => sum + keyResult.progress, 0) /
+          this.state.keyResults.length
+      )
+      let objective = {
         label: this.state.objectiveLabel,
-        progress: 0,
+        progress,
         keyResults: this.state.keyResults
-      })
+      }
+
+      if(!this.props.demo) {
+        const objectiveId = this.saveFirestore(objective)
+        this.saveReduxStore(objective, objectiveId)
+      } else {
+        this.props.addDemo(objective)
+      }
+
+
     }
     this.props.onCardClose()
+  }
+
+  onKeyResultUpdate = (keyResultIndex, updatedKeyResult) => {
+    this.setState({ keyResults: [
+      ...this.state.keyResults.slice(0, keyResultIndex),
+      updatedKeyResult,
+      ...this.state.keyResults.slice(keyResultIndex + 1)
+    ] })
+  }
+
+  onKeyResultShow = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: false
+    })
+  }
+
+  onKeyResultHide = () => {
+    this.setState({
+      addKeyResult: false,
+      showAddButton: true
+    })
+  }
+
+  onObjectiveChange = (e) => {
+    this.setState({
+      objectiveLabel: e.target.value,
+      showAddButton: e.target.value !== ''
+    })
   }
 
   onObjectiveEnter = (e) => {
     if(e.key === 'Enter' && this.state.objectiveLabel !== '') {
       this.setState({ editHeading: false })
-      // dispatch to store
     }
   }
 
@@ -63,7 +129,7 @@ class NewObjectiveModal extends Component {
       <TextInput
         placeholder='Objective Title'
         value={this.state.objectiveLabel}
-        onChange={(e) => this.setState({ objectiveLabel: e.target.value })}
+        onChange={this.onObjectiveChange}
         onKeyDown={this.onObjectiveEnter}/>
     )  : (
       this.state.objectiveLabel
@@ -71,11 +137,13 @@ class NewObjectiveModal extends Component {
   }
 
   renderAddButton() {
-    return this.state.objectiveLabel !== '' && (
-      <Button
-        margin={{vertical: 'medium'}}
-        label='Add Key Result'
-        onClick={this.onAddClick}/>
+    return this.state.showAddButton && (
+        <Button
+          label={<Text color='white'>{'New Key Result'}</Text>}
+          icon={<Add color='white'/>}
+          color='white'
+          margin={{vertical: 'medium', horizontal: 'xlarge'}}
+          onClick={this.onAddClick}/>
     )
   }
 
@@ -97,39 +165,57 @@ class NewObjectiveModal extends Component {
         margin='xlarge'
         full>
         <Box
-          direction='row'>
-          <Box basis='3/4'>
-            <Heading
-              margin={{ left: 'medium'}}
-              onClick={() => this.setState({ editHeading: true })}>
-              {this.renderHeading()}
-            </Heading>
-          </Box>
-
+          background='layout-background'
+          fill>
           <Box
-            basis='1/4'
-            justify='center'
-            align='center'
-            onClick={this.onCloseModal}
-            hoverIndicator>
-            <Close/>
-          </Box>
-        </Box>
+            direction='row'>
+            <Box basis='3/4'>
+              <Heading
+                margin={{ left: 'medium'}}
+                onClick={() => this.setState({ editHeading: true })}>
+                {this.renderHeading()}
+              </Heading>
+            </Box>
 
-        <Box margin={{ horizontal: 'large', top: 'medium'}}>
-          <KeyResultList keyResults={this.state.keyResults}/>
-          {this.renderKeyResultInput()}
-          {this.renderAddButton()}
+            <Box
+              basis='1/4'
+              justify='center'
+              align='center'
+              onClick={this.onCloseModal}
+              hoverIndicator>
+              <Close/>
+            </Box>
+          </Box>
+
+          <Box margin={{ horizontal: 'large', top: 'medium'}}>
+            <Box
+              overflow='auto'
+              height={{ max: 'medium' }}
+              margin={{ vertical: 'small' }}>
+            <KeyResultList
+              keyResults={this.state.keyResults}
+              onKeyResultUpdate={this.onKeyResultUpdate}
+              onKeyResultShow={this.onKeyResultShow}
+              onKeyResultHide={this.onKeyResultHide}/>
+            </Box>
+            {this.renderKeyResultInput()}
+            {this.renderAddButton()}
+          </Box>
         </Box>
       </Layer>
     )
   }
 }
 
+const mapStateToProps = ({ user }) => {
+  return { user }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    addObjective
+    addObjective,
+    addDemo
   }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(NewObjectiveModal)
+export default connect(mapStateToProps, mapDispatchToProps)(NewObjectiveModal)
