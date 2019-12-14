@@ -63,7 +63,7 @@ class ObjectiveList extends Component {
     return (
       <Box
         direction='row'
-        margin='medium'
+        margin={{ vertical: 'medium', horizontal: 'large'}}
         wrap>
         {this.renderCard()}
         {this.renderModal()}

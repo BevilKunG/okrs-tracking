@@ -169,14 +169,6 @@ class AuthModal extends Component {
     )
   }
 
-  renderTab() {
-    switch(this.state.selectedTab) {
-      case LOGIN: return this.renderLoginForm()
-      case REGISTER: return this.renderRegisterForm()
-      default: return this.renderLoginForm()
-    }
-  }
-
   renderTabs() {
     return (
       <Box
@@ -231,7 +223,8 @@ class AuthModal extends Component {
 
           <Box
             margin={{ top: 'medium', horizontal: 'xlarge' }}>
-            {this.renderTab()}
+            {this.renderLoginForm()}
+            {this.renderRegisterForm()}
           </Box>
         </Box>
       </Layer>
