@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { updateObjective } from '../../actions'
+import { updateObjective, updateDemo } from '../../actions'
 import { Layer, Box, Heading, Button, Text, TextInput } from 'grommet'
 import { Close, Add } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
@@ -60,8 +60,16 @@ class ObjectiveModal extends Component {
         keyResults: this.state.keyResults
       }
 
-      this.saveReduxStore(objective)
-      this.saveFirestore(objective, id)
+      if(!this.props.demo) {
+        this.saveReduxStore(objective)
+        this.saveFirestore(objective, id)
+      } else {
+        this.props.updateDemo(
+          this.props.objectiveIndex,
+          objective
+        )
+      }
+
       this.setState({ isUpdate: false })
     }
     this.props.onCardClose()
@@ -196,7 +204,8 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    updateObjective
+    updateObjective,
+    updateDemo
   }, dispatch)
 }
 

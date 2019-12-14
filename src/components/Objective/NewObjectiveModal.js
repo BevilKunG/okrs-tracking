@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addObjective } from '../../actions'
+import { addObjective, addDemo } from '../../actions'
 import { Layer, Box, Heading, TextInput, Button, Text } from 'grommet'
 import { Close, Add } from 'grommet-icons'
 import KeyResultList from '../KeyResult/KeyResultList'
@@ -53,8 +53,13 @@ class NewObjectiveModal extends Component {
         keyResults: this.state.keyResults
       }
 
-      const objectiveId = this.saveFirestore(objective)
-      this.saveReduxStore(objective, objectiveId)
+      if(!this.props.demo) {
+        const objectiveId = this.saveFirestore(objective)
+        this.saveReduxStore(objective, objectiveId)
+      } else {
+        this.props.addDemo(objective)
+      }
+
 
     }
     this.props.onCardClose()
@@ -92,7 +97,6 @@ class NewObjectiveModal extends Component {
   onObjectiveEnter = (e) => {
     if(e.key === 'Enter' && this.state.objectiveLabel !== '') {
       this.setState({ editHeading: false })
-      // dispatch to store
     }
   }
 
@@ -209,7 +213,8 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    addObjective
+    addObjective,
+    addDemo
   }, dispatch)
 }
 

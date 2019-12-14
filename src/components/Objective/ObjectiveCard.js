@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { deleteObjective } from '../../actions'
+import { deleteObjective, deleteDemo } from '../../actions'
 import { Box, Heading, Meter, Menu } from 'grommet'
 import { More } from 'grommet-icons'
 import firebase from 'firebase/app'
@@ -30,8 +30,12 @@ class ObjectiveCard extends Component {
   }
 
   onDelete = () => {
-    this.deleteRedux()
-    this.deleteFirestore()
+    if(!this.props.demo) {
+      this.deleteRedux()
+      this.deleteFirestore()
+    } else {
+      this.props.deleteDemo(this.props.objectiveIndex)
+    }
   }
 
   deleteRedux = () => {
@@ -109,7 +113,8 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    deleteObjective
+    deleteObjective,
+    deleteDemo
   }, dispatch)
 }
 

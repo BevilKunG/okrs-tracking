@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { setUser, setObjectives, setLoading } from './actions'
+import { setUser, setObjectives, setDemo,  setLoading } from './actions'
 import { Grommet } from 'grommet'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -22,10 +22,12 @@ class App extends Component {
       if(user) {
         this.updateUserName(user)
         this.props.setUser(user)
+        this.props.setDemo([])
         this.fetchFirestoreData(user)
       } else {
         this.props.setUser(null)
         this.props.setObjectives([])
+        this.props.setDemo([])
       }
     })
   }
@@ -70,7 +72,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     setUser,
     setObjectives,
-    setLoading
+    setLoading,
+    setDemo
   }, dispatch)
 }
 

@@ -4,7 +4,11 @@ import { SET_OBJECTIVES,
         DELETE_OBJECTIVE,
         SET_USER,
         SET_USER_NAME,
-        SET_LOADING } from './types'
+        SET_LOADING,
+        SET_DEMO,
+        ADD_DEMO,
+        UPDATE_DEMO,
+        DELETE_DEMO } from './types'
 
 export const setObjectives = (objectives) => {
   return {
@@ -66,6 +70,43 @@ export const setLoading = (loading) => {
     type: SET_LOADING,
     payload: {
       loading
+    }
+  }
+}
+
+export const setDemo = (objectives) => {
+  return {
+    type: SET_DEMO,
+    payload: {
+      objectives
+    }
+  }
+}
+
+export const addDemo = (objective) => {
+  return {
+    type: ADD_DEMO,
+    payload: {
+      objective
+    }
+  }
+}
+
+export const updateDemo = (updatedIndex, updatedObjective) => {
+  return {
+    type: UPDATE_DEMO,
+    payload: {
+      updatedIndex,
+      updatedObjective
+    }
+  }
+}
+
+export const deleteDemo = (deletedIndex) => {
+  return {
+    type: DELETE_DEMO,
+    payload: {
+      deletedIndex
     }
   }
 }

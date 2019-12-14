@@ -34,17 +34,49 @@ class ObjectiveList extends Component {
     this.setState({ showNewModal: false })
   }
 
-
-  renderCard() {
-    return this.props.objectives.map((objective, index) => {
+  renderDemoCard() {
+    return this.props.demoObjectives.map((objective, index) => {
       return (
         <ObjectiveCard
-          key={objective.id}
+          key={objective.label + index}
           objective={objective}
           objectiveIndex={index}
-          onCardClick={this.openObjective}/>
+          onCardClick={this.openObjective}
+          demo={this.props.demo}
+          />
       )
     })
+  }
+
+
+  renderCard() {
+    if(!this.props.demo) {
+      return this.props.objectives.map((objective, index) => {
+        return (
+          <ObjectiveCard
+            key={objective.id}
+            objective={objective}
+            objectiveIndex={index}
+            onCardClick={this.openObjective}
+            />
+        )
+      })
+    } else {
+      return this.renderDemoCard()
+    }
+  }
+
+  renderNewCard() {
+    if(!this.props.demo) {
+      return (
+        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+      )
+    } else {
+      return this.props.demoObjectives.length < 3 && (
+        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+      )
+    }
+
   }
 
   renderModal() {
@@ -52,10 +84,13 @@ class ObjectiveList extends Component {
       <ObjectiveModal
         objective={this.state.selectedObjective}
         objectiveIndex={this.state.selectedIndex}
-        onCardClose={this.closeObjective}/>
+        onCardClose={this.closeObjective}
+        demo={!!this.props.demo}/>
     )) ||
     (this.state.showNewModal && (
-      <NewObjectiveModal onCardClose={this.closeNewObjective}/>
+      <NewObjectiveModal
+        onCardClose={this.closeNewObjective}
+        demo={!!this.props.demo}/>
     ))
   }
 
@@ -67,14 +102,14 @@ class ObjectiveList extends Component {
         wrap>
         {this.renderCard()}
         {this.renderModal()}
-        <NewObjectiveCard onCardClick={this.openNewObjective}/>
+        {this.renderNewCard()}
       </Box>
     )
   }
 }
 
-const mapStateToProps = ({ objectives }) => {
-  return { objectives }
+const mapStateToProps = ({ objectives, demoObjectives }) => {
+  return { objectives, demoObjectives }
 }
 
 export default connect(mapStateToProps)(ObjectiveList)
