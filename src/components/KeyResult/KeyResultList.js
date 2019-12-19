@@ -49,7 +49,7 @@ class KeyResultList extends Component {
   }
 
   renderSign(keyResultIndex) {
-    return this.state.currentSelected === keyResultIndex ? <Up/> : <Down/>
+    return this.state.currentSelected === keyResultIndex ? <Up color='white' /> : <Down color='white' />
   }
 
   renderList() {

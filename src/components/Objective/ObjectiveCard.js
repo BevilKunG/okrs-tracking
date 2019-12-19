@@ -77,12 +77,18 @@ class ObjectiveCard extends Component {
     return (
       <Box
         pad={{ horizontal: 'medium', top: 'medium', bottom: 'large' }}>
-        <Heading color='white'>{this.props.objective.label}</Heading>
-        <Meter
-          values={[{
-            value:this.props.objective.progress,
-            label: `${this.props.objective.progress} %`,
-          }]}/>
+        <Box
+          height={{ min: 'small'}}
+          justify='center'>
+          <Heading color='white'>{this.props.objective.label}</Heading>
+        </Box>
+        <Box>
+          <Meter
+            values={[{
+              value:this.props.objective.progress,
+              label: `${this.props.objective.progress} %`,
+            }]}/>
+        </Box>
       </Box>
     )
   }

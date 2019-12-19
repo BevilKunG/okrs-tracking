@@ -61,8 +61,7 @@ class ProgressLog extends Component {
 
   handleProgressDetailList = () => {
     let progressDetail = {
-      label: this.state.progressDetailLabel,
-      // progress: 0
+      label: this.state.progressDetailLabel
     }
 
     this.setState({
@@ -70,13 +69,12 @@ class ProgressLog extends Component {
       progressDetailLabel: ''
     })
 
-    // update back to modal
     let updatedKeyResult = {...this.props.keyResult}
     updatedKeyResult.progressDetailList = [...this.state.progressDetailList, progressDetail]
     this.props.onKeyResultUpdate(this.props.keyResultIndex, updatedKeyResult)
   }
 
-  handleProgress() {
+  handleProgress = () => {
     let updatedKeyResult = {...this.props.keyResult}
     updatedKeyResult.progress = this.state.currentProgress
     this.props.onKeyResultUpdate(this.props.keyResultIndex, updatedKeyResult)
@@ -86,14 +84,19 @@ class ProgressLog extends Component {
     })
   }
 
-  renderAddButton() {
+  renderButtons() {
     return !this.state.updateProgress && (
-      <Button
-        margin={{vertical: 'medium', horizontal: 'xlarge'}}
-        label={<Text color='white'>{'Check in'}</Text>}
-        icon={<Location color='white'/>}
-        color='white'
-        onClick={this.onAddClick}/>
+      <Box
+        direction='row'
+        alignSelf='end'
+        margin={{ vertical: 'medium'}}>
+        <Button
+          margin={{ horizontal: 'small' }}
+          label={<Text color='white'>{'Check in'}</Text>}
+          icon={<Location color='white'/>}
+          color='white'
+          onClick={this.onAddClick}/>
+      </Box>
     )
   }
 
@@ -176,7 +179,7 @@ class ProgressLog extends Component {
         {this.renderList()}
       </Box>
       {this.renderProgressDetailInput()}
-      {this.renderAddButton()}
+      {this.renderButtons()}
     </Box>
     )
   }
